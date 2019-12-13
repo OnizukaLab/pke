@@ -354,6 +354,10 @@ class LoadFile(object):
                                 pos=[sentence.pos[j]],
                                 offset=shift + j,
                                 sentence_id=i)
+                print([word])
+                print([sentence.stems[j]])
+                print([sentence.pos[j]])
+                print(shift + j)
             """
             # container for the sequence (defined as list of offsets)
             seq = []
