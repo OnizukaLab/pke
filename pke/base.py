@@ -372,8 +372,8 @@ class LoadFile(object):
                     print(sentence.words[seq[0]:seq[-1] + 1])
                     print(sentence.stems[seq[0]:seq[-1] + 1])
                     print(sentence.pos[seq[0]:seq[-1] + 1])
-                    print(offset=shift + seq[0])
-                    
+                    print(shift + seq[0])
+
                 # flush sequence container
                 seq = []
 
