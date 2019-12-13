@@ -362,14 +362,14 @@ class LoadFile(object):
 
                 # add sequence as candidate if non empty
                 if seq:
-                    """
+                    
                     # add the ngram to the candidate container
                     self.add_candidate(words=sentence.words[seq[0]:seq[-1] + 1],
                                        stems=sentence.stems[seq[0]:seq[-1] + 1],
                                        pos=sentence.pos[seq[0]:seq[-1] + 1],
                                        offset=shift + seq[0],
                                        sentence_id=i)
-                    """
+                    print(sentence.words[seq[0]:seq[-1] + 1])
                 # flush sequence container
                 seq = []
 
