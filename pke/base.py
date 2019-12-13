@@ -365,7 +365,18 @@ class LoadFile(object):
 
             # loop through the tokens
             for j, value in enumerate(key(self.sentences[i])):
-                print(value)
+                if value in valid_values:
+                    self.add_candidate(words=[sentence.words[j]],
+                                       stems=[sentence.stems[j]],
+                                       pos=[sentence.pos[j]],
+                                       offset=shift + j,
+                                       sentence_id=i)
+                    print([sentence.words[j]])
+                    print([sentence.stems[j]])
+                    print([sentence.pos[j]])
+                    print(shift + j)
+
+                """  
                 # add candidate offset in sequence and continue if not last word
                 if value in valid_values:
                     seq.append(j)
@@ -384,8 +395,8 @@ class LoadFile(object):
 
 
                 # flush sequence container
-                seq = []
-            
+                seq = []    
+                """  
 
     def grammar_selection(self, grammar=None):
         """Select candidates using nltk RegexpParser with a grammar defining
