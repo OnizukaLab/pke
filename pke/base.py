@@ -348,6 +348,13 @@ class LoadFile(object):
             # compute the offset shift for the sentence
             shift = sum([s.length for s in self.sentences[0:i]])
 
+            for j, word in enumerate(sentence.words):
+                self.add_candidate(words=word,
+                                stems=sentence.stems[j],
+                                pos=sentence.pos[j],
+                                offset=shift + j,
+                                sentence_id=i)
+            """
             # container for the sequence (defined as list of offsets)
             seq = []
 
@@ -369,13 +376,11 @@ class LoadFile(object):
                                        pos=sentence.pos[seq[0]:seq[-1] + 1],
                                        offset=shift + seq[0],
                                        sentence_id=i)
-                    print(sentence.words[seq[0]:seq[-1] + 1])
-                    print(sentence.stems[seq[0]:seq[-1] + 1])
-                    print(sentence.pos[seq[0]:seq[-1] + 1])
-                    print(shift + seq[0])
+
 
                 # flush sequence container
                 seq = []
+            """
 
     def grammar_selection(self, grammar=None):
         """Select candidates using nltk RegexpParser with a grammar defining
