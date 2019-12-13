@@ -349,9 +349,9 @@ class LoadFile(object):
             shift = sum([s.length for s in self.sentences[0:i]])
 
             for j, word in enumerate(sentence.words):
-                self.add_candidate(words=word,
-                                stems=sentence.stems[j],
-                                pos=sentence.pos[j],
+                self.add_candidate(words=[word],
+                                stems=[sentence.stems[j]],
+                                pos=[sentence.pos[j]],
                                 offset=shift + j,
                                 sentence_id=i)
             """
