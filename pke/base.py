@@ -347,13 +347,36 @@ class LoadFile(object):
 
             # compute the offset shift for the sentence
             shift = sum([s.length for s in self.sentences[0:i]])
-
+            """
+            for j, word in enumerate(sentence.words):
+                self.add_candidate(words=[word],
+                                stems=[sentence.stems[j]],
+                                pos=[sentence.pos[j]],
+                                offset=shift + j,
+                                sentence_id=i)
+                print([word])
+                print([sentence.stems[j]])
+                print([sentence.pos[j]])
+                print(shift + j)
+            """
+            
             # container for the sequence (defined as list of offsets)
             seq = []
 
             # loop through the tokens
             for j, value in enumerate(key(self.sentences[i])):
+                if value in valid_values:
+                    self.add_candidate(words=[sentence.words[j]],
+                                       stems=[sentence.stems[j]],
+                                       pos=[sentence.pos[j]],
+                                       offset=shift + j,
+                                       sentence_id=i)
+                    print([sentence.words[j]])
+                    print([sentence.stems[j]])
+                    print([sentence.pos[j]])
+                    print(shift + j)
 
+                """  
                 # add candidate offset in sequence and continue if not last word
                 if value in valid_values:
                     seq.append(j)
@@ -362,7 +385,7 @@ class LoadFile(object):
 
                 # add sequence as candidate if non empty
                 if seq:
-
+                    
                     # add the ngram to the candidate container
                     self.add_candidate(words=sentence.words[seq[0]:seq[-1] + 1],
                                        stems=sentence.stems[seq[0]:seq[-1] + 1],
@@ -370,8 +393,10 @@ class LoadFile(object):
                                        offset=shift + seq[0],
                                        sentence_id=i)
 
+
                 # flush sequence container
-                seq = []
+                seq = []    
+                """  
 
     def grammar_selection(self, grammar=None):
         """Select candidates using nltk RegexpParser with a grammar defining
