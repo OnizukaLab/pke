@@ -347,25 +347,18 @@ class LoadFile(object):
 
             # compute the offset shift for the sentence
             shift = sum([s.length for s in self.sentences[0:i]])
-            
-            # container for the sequence (defined as list of offsets)
-            seq = []
 
             # loop through the tokens
-            sen_words = []
-            sen_stems = []
-            sen_pos = []
             for j, value in enumerate(key(self.sentences[i])):
+
+                # add candidate offset in sequence and continue if not last word
                 if value in valid_values:
-                    sen_words.append(sentence.words[j])
-                    sen_stems.append(sentence.stems[j])
-                    sen_pos.append(sentence.pos[j])
-                # add sentences
-            self.add_candidate(words=sen_words,
-                                stems=sen_stems,
-                                pos=sen_pos,
-                                offset=shift,
-                                sentence_id=i)
+                    # add the ngram to the candidate container
+                    self.add_candidate(words=[sentence.words[j]],
+                                       stems=[sentence.stems[j]],
+                                       pos=[sentence.pos[j]],
+                                       offset=shift + j,
+                                       sentence_id=i)
  
 
     def grammar_selection(self, grammar=None):
