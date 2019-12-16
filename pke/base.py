@@ -497,8 +497,8 @@ class LoadFile(object):
                 del self.candidates[k]
 
             # discard candidates composed of more than 5 words
-            elif len(v.lexical_form) > maximum_word_number:
-                del self.candidates[k]
+            # elif len(v.lexical_form) > maximum_word_number:
+            #     del self.candidates[k]
 
             # discard if not containing only alpha-numeric characters
             if only_alphanum and k in self.candidates:
