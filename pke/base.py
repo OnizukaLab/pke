@@ -354,7 +354,7 @@ class LoadFile(object):
             # add sentences
             self.add_candidate(words=sentence.words,
                                 stems=sentence.stems,
-                                pos=sentence.pos[j],
+                                pos=sentence.pos,
                                 offset=shift,
                                 sentence_id=i)
  
