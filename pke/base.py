@@ -351,14 +351,12 @@ class LoadFile(object):
             # container for the sequence (defined as list of offsets)
             seq = []
 
-            # loop through the tokens
-            for j, value in enumerate(key(self.sentences[i])):
-                if value in valid_values:
-                    self.add_candidate(words=[sentence.words[j]],
-                                       stems=[sentence.stems[j]],
-                                       pos=[sentence.pos[j]],
-                                       offset=shift + j,
-                                       sentence_id=i)
+            # add sentences
+            self.add_candidate(words=sentence.words,
+                                stems=sentence.stems,
+                                pos=sentence.pos[j],
+                                offset=shift,
+                                sentence_id=i)
  
 
     def grammar_selection(self, grammar=None):
