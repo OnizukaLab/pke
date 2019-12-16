@@ -201,7 +201,7 @@ class TopicRank(LoadFile):
 
         # cluster the candidates
         self.topic_clustering(threshold=threshold, method=method)
-        print(self.topics)
+        
         # build the topic graph
         self.build_topic_graph()
 
