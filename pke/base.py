@@ -386,31 +386,22 @@ class LoadFile(object):
         # loop through the sentences
         for i, sentence in enumerate(self.sentences):
 
+            # limit the maximum n for short sentence
+            skip = min(n, sentence.length)
+
             # compute the offset shift for the sentence
             shift = sum([s.length for s in self.sentences[0:i]])
 
-            # convert sentence as list of (offset, pos) tuples
-            tuples = [(str(j), sentence.pos[j]) for j in range(sentence.length)]
-
-            # parse sentence
-            tree = chunker.parse(tuples)
-
-            # find candidates
-            for subtree in tree.subtrees():
-                if subtree.label() == 'NP':
-                    leaves = subtree.leaves()
-
-                    # get the first and last offset of the current candidate
-                    first = int(leaves[0][0])
-                    last = int(leaves[-1][0])
-
-                    # add the NP to the candidate container
-                    self.add_candidate(words=sentence.words[first:last + 1],
-                                       stems=sentence.stems[first:last + 1],
-                                       pos=sentence.pos[first:last + 1],
-                                       offset=shift + first,
+            # generate the ngrams
+            for j in range(sentence.length):
+                for k in range(j + 1, min(j + 1 + skip, sentence.length + 1)):
+                    # add the ngram to the candidate container
+                    self.add_candidate(words=sentence.words[j:k],
+                                       stems=sentence.stems[j:k],
+                                       pos=sentence.pos[j:k],
+                                       offset=shift + j,
                                        sentence_id=i)
-
+                                       
     @staticmethod
     def _is_alphanum(word, valid_punctuation_marks='-'):
         """Check if a word is valid, i.e. it contains only alpha-numeric
