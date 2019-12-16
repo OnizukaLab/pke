@@ -167,7 +167,7 @@ class TopicRank(LoadFile):
 
         # adding the nodes to the graph
         self.graph.add_nodes_from(range(len(self.topics)))
-        print(self.topics)
+
         # loop through the topics to connect the nodes
         for i, j in combinations(range(len(self.topics)), 2):
             self.graph.add_edge(i, j, weight=0.0)
@@ -201,7 +201,7 @@ class TopicRank(LoadFile):
 
         # cluster the candidates
         self.topic_clustering(threshold=threshold, method=method)
-
+        print(self.topics)
         # build the topic graph
         self.build_topic_graph()
 
