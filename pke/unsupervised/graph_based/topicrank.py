@@ -21,8 +21,10 @@ from itertools import combinations
 
 import networkx as nx
 import numpy as np
-from scipy.cluster.hierarchy import linkage, fcluster
+
+from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 from scipy.spatial.distance import pdist
+import matplotlib.pyplot as plt
 
 from pke.base import LoadFile
 
@@ -153,6 +155,10 @@ class TopicRank(LoadFile):
 
         # compute the clusters
         Z = linkage(Y, method=method)
+        dendrogram(Z)
+        plt.title("Dedrogram_keysentence")
+        plt.ylabel("Threshold")
+        plt.savefig("Dendrogram_keysentence.png")
 
         # form flat clusters
         clusters = fcluster(Z, t=threshold, criterion='distance')
