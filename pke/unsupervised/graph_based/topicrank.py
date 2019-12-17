@@ -156,9 +156,9 @@ class TopicRank(LoadFile):
         # compute the clusters
         Z = linkage(Y, method=method)
         dendrogram(Z)
-        plt.title("Dedrogram_keysentence")
+        plt.title("Dedrogram")
         plt.ylabel("Threshold")
-        plt.savefig("Dendrogram_keysentence.png")
+        plt.savefig("Dendrogram.png")
 
         # form flat clusters
         clusters = fcluster(Z, t=threshold, criterion='distance')
