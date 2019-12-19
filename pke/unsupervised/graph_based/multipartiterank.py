@@ -190,6 +190,9 @@ class MultipartiteRank(TopicRank):
                 if boosters:
                     weighted_edges[(start, end)] = np.sum(boosters)
 
+        # caluculate center vector
+        self.calculate_center()
+
         # update edge weights -- Python 2/3 compatible
         # for nodes, boosters in weighted_edges.iteritems():
         for nodes, boosters in weighted_edges.items():
