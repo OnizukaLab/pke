@@ -104,7 +104,8 @@ class MultipartiteRank(TopicRank):
         Z = linkage(Y, method=method)
 
         # form flat clusters
-        clusters = fcluster(Z, t=threshold, criterion='distance')
+        #clusters = fcluster(Z, t=threshold, criterion='distance')
+        clusters = fcluster(Z, t=threshold, criterion='maxclust')
 
         # for each cluster id
         for cluster_id in range(1, max(clusters) + 1):
@@ -196,6 +197,11 @@ class MultipartiteRank(TopicRank):
             position_i = 1.0 / (1 + self.candidates[node_i].offsets[0])
             position_i = math.exp(position_i)
             self.graph[node_j][node_i]['weight'] += (boosters * alpha * position_i)
+
+    def calculate_center(self):
+        for i,topic in enumerate(self.topics):
+            for phrase in topic:
+                print(phrase)
 
     def candidate_weighting(self,
                             threshold=0.74,
