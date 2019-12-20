@@ -24,7 +24,7 @@ import numpy as np
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import pdist
 from gensim.models.wrappers import FastText
-import ZipFile
+import zipfile
 from sklearn.metrics.pairwise import cosine_similarity
 
 from pke.unsupervised import TopicRank
