@@ -223,7 +223,7 @@ class MultipartiteRank(TopicRank):
                 try:
                     vector_list.append(model.wv[phrase])
                     phrase_list.append(phrase)
-                except Keyerror:
+                except KeyError:
                     print(phrase + " cannot get vector")
             if vector_list:
                 center_vector = sum(vector_list)/len(vector_list)
