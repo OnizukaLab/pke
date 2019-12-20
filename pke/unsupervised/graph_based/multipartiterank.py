@@ -154,7 +154,7 @@ class MultipartiteRank(TopicRank):
                 # node_j -> node_i
                 self.graph.add_edge(node_j, node_i, weight=sum(weights))
 
-    def weight_adjustment(self, alpha=1.1, model_file):
+    def weight_adjustment(self, model_file, alpha=1.1):
         """ Adjust edge weights for boosting some candidates.
 
             Args:
@@ -221,10 +221,10 @@ class MultipartiteRank(TopicRank):
                 print(tmp)
 
     def candidate_weighting(self,
+                            model_file
                             threshold=0.74,
                             method='average',
-                            alpha=1.1,
-                            model_file):
+                            alpha=1.1):
         """ Candidate weight calculation using random walk.
 
             Args:
@@ -242,7 +242,7 @@ class MultipartiteRank(TopicRank):
         self.build_topic_graph()
 
         if alpha > 0.0:
-            self.weight_adjustment(alpha, model_file)
+            self.weight_adjustment(model_file, alpha)
 
         # compute the word scores using random walk
         self.weights = nx.pagerank_scipy(self.graph)
