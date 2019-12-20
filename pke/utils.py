@@ -28,6 +28,8 @@ from sklearn.decomposition import LatentDirichletAllocation
 from nltk.stem.snowball import SnowballStemmer
 from nltk.corpus import stopwords
 
+from gensim.models.wrappers import FastText
+import zipfile
 
 def load_document_frequency_file(input_file,
                                  delimiter='\t'):
@@ -556,3 +558,16 @@ def compute_pairwise_similarity_matrix(input_dir,
                 # encode line and write to output file
                 line = doc_i + '\t' + doc_j + '\t' + str(cosine) + '\n'
                 f.write(line.encode('utf-8'))
+
+def load_fasttext_model(model_file):
+    if model_file[-4:] == '.bin':
+            model = FastText.load_fasttext_format(model_file)
+
+    elif model_file[-4:] == '.zip':
+        with zipfile.ZipFile(model_file) as existing_zip:
+            filename = existing_zip.namelist()
+            bin_filelist = [ f for f in filename if f[-4:] == '.bin' ]
+            bin_file = existing_zip.extract(bin_filelist[0])
+            model = FastText.load_fasttext_format(bin_file)
+            
+    return model

@@ -154,7 +154,7 @@ class MultipartiteRank(TopicRank):
                 # node_j -> node_i
                 self.graph.add_edge(node_j, node_i, weight=sum(weights))
 
-    def weight_adjustment(self, model_file, alpha=1.1):
+    def weight_adjustment(self, model, alpha=1.1):
         """ Adjust edge weights for boosting some candidates.
 
             Args:
@@ -194,7 +194,7 @@ class MultipartiteRank(TopicRank):
                     weighted_edges[(start, end)] = np.sum(boosters)
 
         # caluculate center vector
-        self.calculate_center(model_file)
+        self.calculate_center(model)
 
         # update edge weights -- Python 2/3 compatible
         # for nodes, boosters in weighted_edges.iteritems():
@@ -204,24 +204,14 @@ class MultipartiteRank(TopicRank):
             position_i = math.exp(position_i)
             self.graph[node_j][node_i]['weight'] += (boosters * alpha * position_i)
 
-    def calculate_center(self, model_file):
-        if model_file[-4:] == '.bin':
-            model = FastText.load_fasttext_format(model_file)
-
-        elif model_file[-4:] == '.zip':
-            with zipfile.ZipFile(model_file) as existing_zip:
-                filename = existing_zip.namelist()
-                bin_filelist = [ f for f in filename if f[-4:] == '.bin' ]
-                bin_file = existing_zip.extract(bin_filelist[0])
-                model = FastText.load_fasttext_format(bin_file)
-        
+    def calculate_center(self, model):
         for i,topic in enumerate(self.topics):
             for phrase in topic:
                 tmp = model.wv[phrase]
                 print(tmp)
 
     def candidate_weighting(self,
-                            model_file,
+                            model,
                             threshold=0.74,
                             method='average',
                             alpha=1.1):
@@ -242,7 +232,7 @@ class MultipartiteRank(TopicRank):
         self.build_topic_graph()
 
         if alpha > 0.0:
-            self.weight_adjustment(model_file, alpha)
+            self.weight_adjustment(model, alpha)
 
         # compute the word scores using random walk
         self.weights = nx.pagerank_scipy(self.graph)
