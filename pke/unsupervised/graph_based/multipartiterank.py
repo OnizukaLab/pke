@@ -38,7 +38,9 @@ class MultipartiteRank(TopicRank):
         import pke
         import string
         from nltk.corpus import stopwords
-
+        from pke import load_fasttext_model
+        # 0. load fasttext model file
+        model = load_fasttext_model(model_file = 'path/to/model.bin')
         # 1. create a MultipartiteRank extractor.
         extractor = pke.unsupervised.MultipartiteRank()
 
@@ -56,7 +58,8 @@ class MultipartiteRank(TopicRank):
         # 4. build the Multipartite graph and rank candidates using random walk,
         #    alpha controls the weight adjustment mechanism, see TopicRank for
         #    threshold/method parameters.
-        extractor.candidate_weighting(alpha=1.1,
+        extractor.candidate_weighting(model,
+                                      alpha=1.1,
                                       threshold=0.74,
                                       method='average')
 
@@ -194,7 +197,7 @@ class MultipartiteRank(TopicRank):
                     weighted_edges[(start, end)] = np.sum(boosters)
 
         # caluculate center vector
-        self.calculate_center(model)
+        similarity_list = self.calculate_center(model)
 
         # update edge weights -- Python 2/3 compatible
         # for nodes, boosters in weighted_edges.iteritems():
@@ -204,11 +207,29 @@ class MultipartiteRank(TopicRank):
             position_i = math.exp(position_i)
             self.graph[node_j][node_i]['weight'] += (boosters * alpha * position_i)
 
+        for start, end in self.graph.edges:
+            for phrase, similarity in similarity_list:
+                if phrase == end:
+                    self.graph[start][end]['weight'] += similarity
+
+            
+
     def calculate_center(self, model):
-        for i,topic in enumerate(self.topics):
+        for i, topic in enumerate(self.topics):
+            vector_list = []
+            phrase_list = []
+            similarity_list = []
             for phrase in topic:
-                tmp = model.wv[phrase]
-                print(tmp)
+                vector_list.append(model.wv[phrase])
+                phrase_list.append(phrase)
+            center_vector = sum(vector_list)/len(vector_list)
+            for j, phrase_vector in enumerate(vector_list):
+                similarity_list.append(phrase_list[j], cosine_similarity([center_vector],[phrase_vector]))
+        return similarity_list
+            
+
+
+            
 
     def candidate_weighting(self,
                             model,

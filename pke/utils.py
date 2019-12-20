@@ -561,12 +561,14 @@ def compute_pairwise_similarity_matrix(input_dir,
 
 def load_fasttext_model(model_file):
     if model_file[-4:] == '.bin':
-            model = FastText.load_fasttext_format(model_file)
+        logging.info('loading file {}'.format(model_file))
+        model = FastText.load_fasttext_format(model_file)
 
     elif model_file[-4:] == '.zip':
         with zipfile.ZipFile(model_file) as existing_zip:
             filename = existing_zip.namelist()
             bin_filelist = [ f for f in filename if f[-4:] == '.bin' ]
+            logging.info('loading file {}'.format(bin_filelist[0]))
             bin_file = existing_zip.extract(bin_filelist[0])
             model = FastText.load_fasttext_format(bin_file)
             
