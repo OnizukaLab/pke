@@ -224,7 +224,7 @@ class MultipartiteRank(TopicRank):
                 phrase_list.append(phrase)
             center_vector = sum(vector_list)/len(vector_list)
             for j, phrase_vector in enumerate(vector_list):
-                similarity_list.append(phrase_list[j], cosine_similarity([center_vector],[phrase_vector]))
+                similarity_list.append((phrase_list[j], cosine_similarity([center_vector],[phrase_vector])[0][0]))
         return similarity_list
             
 
