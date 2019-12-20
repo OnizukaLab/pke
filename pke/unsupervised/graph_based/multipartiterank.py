@@ -221,7 +221,7 @@ class MultipartiteRank(TopicRank):
                 print(tmp)
 
     def candidate_weighting(self,
-                            model_file
+                            model_file,
                             threshold=0.74,
                             method='average',
                             alpha=1.1):
