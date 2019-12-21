@@ -157,7 +157,7 @@ class MultipartiteRank(TopicRank):
                 # node_j -> node_i
                 self.graph.add_edge(node_j, node_i, weight=sum(weights))
 
-    def weight_adjustment(self, model, alpha=1.1):
+    def weight_adjustment(self, model, alpha=1.1, beta=1.0):
         """ Adjust edge weights for boosting some candidates.
 
             Args:
@@ -210,7 +210,7 @@ class MultipartiteRank(TopicRank):
         for start, end in self.graph.edges:
             for phrase, similarity in similarity_list:
                 if phrase == end:
-                    self.graph[start][end]['weight'] += similarity
+                    self.graph[start][end]['weight'] += beta * similarity
 
             
 
@@ -239,7 +239,8 @@ class MultipartiteRank(TopicRank):
                             model,
                             threshold=0.74,
                             method='average',
-                            alpha=1.1):
+                            alpha=1.1,
+                            beta=1.0):
         """ Candidate weight calculation using random walk.
 
             Args:
