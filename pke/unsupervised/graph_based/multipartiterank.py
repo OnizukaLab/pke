@@ -110,8 +110,8 @@ class MultipartiteRank(TopicRank):
         Z = linkage(Y, method=method)
 
         # form flat clusters
-        #clusters = fcluster(Z, t=threshold, criterion='distance')
-        clusters = fcluster(Z, t=threshold, criterion='maxclust')
+        clusters = fcluster(Z, t=threshold, criterion='distance')
+        #clusters = fcluster(Z, t=threshold, criterion='maxclust')
 
         # for each cluster id
         for cluster_id in range(1, max(clusters) + 1):
